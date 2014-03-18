@@ -1,0 +1,24 @@
+<h1>
+    <%= @event.name %>
+</h1>
+<p>
+    <%= @event.description %>
+</p>
+
+<p>
+    <b>Dates:</b>
+    <%= l @event.start_at, format: :short %>
+    -
+    <%= l @event.end_at, format: :short %>
+</p>
+
+
+<%= render partial: "comments",locals: {event: @event} %>
+
+<ul>
+<% @event.comments.each do |comment| %>
+
+	<li><%= comment.body %> </li>
+
+<% end %>
+</ul>

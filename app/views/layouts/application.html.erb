@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title><%= content_for?(:title) ? yield(:title) : "IronEvents" %></title>
+
+    <%= stylesheet_link_tag    "application" %>
+    <%= javascript_include_tag "vendor/modernizr" %>
+    <%= csrf_meta_tags %>
+  </head>
+
+  <body>
+
+    <%= render partial: 'top_bar' %>
+
+    <% if flash[:alert] %>
+      <div class="alert-box radius" data-alert>
+          <%= flash[:alert] %>
+          <a class="close" href>x</a>
+      </div>
+    <% end %>
+
+    <% if flash[:notice] %>
+      <div class="alert-box success radius" data-alert>
+          <%= flash[:notice] %>
+          <a class="close" href>x</a>
+      </div>
+    <% end %>
+
+    <div class="content row">
+        <div class="large-8 columns right">
+            <%= yield %>
+        </div>
+
+        <div class="sidebar large-4 columns left">
+            <ul class="side-nav">
+                <li>
+                    <%= link_to "Events today", today_events_path %>
+                </li>
+                <li>
+                    <%= link_to "Events next week", next_week_events_path %>
+                </li>
+                <% if current_user %>
+                    <li>
+                        <%= link_to "My events", my_events_path %>
+                    </li>
+                <% end %>
+            </ul>
+        </div>
+    </div>
+    <%= javascript_include_tag "application" %>
+  </body>
+</html>

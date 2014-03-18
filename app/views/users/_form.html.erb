@@ -1,0 +1,38 @@
+<% if @user.errors.any? %>
+
+	<ul>
+
+		<% @user.errors.full_messages.each do |error_msg| %>
+
+			<li><%= error_msg %></li>
+
+		<% end %>
+
+	</ul>
+
+<% end %>
+
+
+
+<%= form_for [@user] do |f| %>
+
+	<%= f.label :email %>
+
+	<%= f.text_field :email %>
+
+	<br>
+
+	<div class = "field">
+		<%= f.label :admin_data %>
+
+		<%= f.check_box :admin_data %>
+	</div>
+
+	<br>
+
+	<%= f.submit 'Save' %>
+
+<%end%>
+
+<br>
+

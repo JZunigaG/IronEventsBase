@@ -1,0 +1,13 @@
+<%= form_for [event,Comment.new] do |f| %>
+
+	<div class = "field">
+		<%= f.label :body,"Comment" %>
+
+		<%= f.text_area :body %>
+	</div>
+
+	<br>
+
+	<%= f.submit 'Comment!' %>
+
+<%end%>
