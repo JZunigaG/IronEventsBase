@@ -1,5 +1,6 @@
 Ironevents::Application.routes.draw do
 
+ 
 	devise_for :users
 
 
@@ -10,6 +11,8 @@ Ironevents::Application.routes.draw do
 	resources :events do
 
 		resources :comments,only: [:create]
+
+    resources :rsvps,only: [:create,:destroy]
 
 		collection do
 

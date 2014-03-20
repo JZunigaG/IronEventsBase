@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+def are_required? gem_name
+  require gem_name
+  true # It could have been already required
+rescue LoadError
+  puts "Install #{gem_name} gem."
+  false
+end
+ 
+everything_is_good = ['redis', 'hiredis', 'pry'].inject(true) do |memo,gem_name|
+  are_required?(gem_name) && memo
+end
+ 
+exit unless everything_is_good
+ 
+def reload!
+  ARGV.each do |f|
+    puts "Loading #{f}..."
+    load f
+  end
+end
+reload!
+ 
+r = Redis.new driver: :hiredis
+puts r.ping
+ 
+prompt_fn = proc do |obj, nest_level, _|
+  p = ""
+  p += if obj == r
+         "Redis:"
+       else
+         "#{obj}:"
+       end
+  p += "#{nest_level}> "
+end
+ 
+ 
+Pry.config.prompt = [
+  prompt_fn,
+  proc do |obj, nest_level, other|
+    "*#{prompt_fn.call obj, nest_level, other}"
+  end
+]
+ 
+puts "You can access all methods available in a redis connection"
+Pry.start(r)

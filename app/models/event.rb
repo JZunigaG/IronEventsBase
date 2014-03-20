@@ -1,39 +1,90 @@
+
+
 class Event < ActiveRecord::Base
-  belongs_to :user
 
-  has_many :comments
+	belongs_to :user
 
-  validates :name, presence: true, length: { maximum: 60 }
+	has_many :comments
+	
+	has_many :rsvps
 
-  validates_length_of :description, minimum: 10, allow_blank: true
+	has_many :users,through: :rsvps
 
-  validates :user, presence: true
 
-  validates :start_at, presence: true
-  validates :end_at, presence: true
+	# Usamos gema friendlyid
+	extend FriendlyId
 
-  scope :for_today, ->(){
-    where(["DATE(start_at) <= DATE(?) AND DATE(?) <= DATE(end_at)", Date.today, Date.today])
-  }
+	# El nombre de la variable a usar como slugged,en la URL ponemos
+	# //localhostt:3000/events/nombre_evento 
+	#friendly_id :name,use: :slugged
 
-  scope :next_week,->(){
+	friendly_id :slug_candidates,use: :slugged
 
-    start = Date.beginning_of_week(:monday) + 7.days
+	validates :name, presence: true, length: { maximum: 60 }
 
-    last = start + 6.days
+	validates_length_of :description, minimum: 10, allow_blank: true
 
-    where(["DATE(start_at) <= DATE(?) AND DATE(?) <= DATE(end_at)",last,start])
-  }
+	validates :user, presence: true
 
-  scope :name_like, lambda { |name|
-    where(["name like ?", "%#{name}%"])
-  }
+	validates :start_at, presence: true
+	validates :end_at, presence: true
 
-  private
 
-  def start_at_is_present
-    if start_at.blank?
-      errors.add(:start_at, "debes introducir la fecha de inicio")
-    end
-  end
+	scope :for_today, ->(){
+		where(["DATE(start_at) <= DATE(?) AND DATE(?) <= DATE(end_at)", Date.today, Date.today])
+	}
+
+	scope :next_week,->(){
+		start = Date.today.next_week
+
+		last = start.end_of_week		
+
+		where(["DATE(start_at) <= DATE(?) AND DATE(?) <= DATE(end_at)",last,start])
+	}
+
+	scope :name_like, lambda { |name|
+		where(["name like ?", "%#{name}%"])
+	}
+
+	# le damos varias opciones para si hay colisiones tenga mas opciones para 
+	# discriminar,primero cogeria :name ,si hay 2 nombres iguales ,cogeria tambien 
+	# la fecha de start y asi sucesivamente
+	def slug_candidates
+		[
+			:name,
+
+		 	[:name,:start_at],
+		 	
+		 	[:name,:start_at,:end_at]
+		]
+	end
+
+
+	# Metodo get
+	def price_in_euros
+
+		(price || 0) / 100.0
+
+	end
+
+	# Metodo set,cuando lleva un =
+	def price_in_euros=(value)
+
+		self.price = value.to_f * 100
+
+	end
+
+
+	private
+
+	def start_at_is_present
+
+		if start_at.blank?
+
+			errors.add(:start_at, "debes introducir la fecha de inicio")
+
+		end
+
+	end
+
 end

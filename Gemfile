@@ -34,6 +34,14 @@ gem 'pg'
 
 gem "rolify", "~> 3.4.0"
 
+gem 'friendly_id', '~> 5.0.0'
+
+gem 'simple_form'
+
+gem "country_select", "~> 1.3.1"
+
+gem 'sidekiq' 
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false

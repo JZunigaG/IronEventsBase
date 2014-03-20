@@ -7,6 +7,6 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 6.times do |i|
 
-	event = Event.create name: "IronHack #{i}",start_at: Date.today,end_at: Date.today + i.days,user: 1
+	event = Event.create name: "IronHack #{i}",description: "",start_at: Date.today,end_at: Date.today + i.days,address: "",user: 1
 	
 end

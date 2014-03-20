@@ -1,12 +1,6 @@
-<%= form_for [event,Comment.new] do |f| %>
+<%= simple_form_for [event,Comment.new] do |f| %>
 
-	<div class = "field">
-		<%= f.label :body,"Comment" %>
-
-		<%= f.text_area :body %>
-	</div>
-
-	<br>
+	<%= f.input :body %>
 
 	<%= f.submit 'Comment!' %>
 

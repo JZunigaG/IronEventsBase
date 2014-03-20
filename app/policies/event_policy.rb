@@ -27,7 +27,7 @@ class EventPolicy < ApplicationPolicy
 
 	def permitted_attributes
 
-		[:name,:description,:start_at,:end_at]
+		[:name,:description,:start_at,:end_at,:price_in_euros]
 
 	end
 

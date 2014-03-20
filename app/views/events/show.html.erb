@@ -13,6 +13,10 @@
 </p>
 
 
+<%= render partial: "price",locals: {event: @event} %>
+
+<br>
+
 <%= render partial: "comments",locals: {event: @event} %>
 
 <ul>
@@ -22,3 +26,12 @@
 
 <% end %>
 </ul>
+
+<% if Rsvp.for_event_and_user(@event,@event.user).exists? %>
+
+<%= link_to "Cancel", event_rsvp_path(@event,@event.id),{method: :delete, class: 'small', data: {confirm: 'Are you sure?'}}%>
+
+<%else%>
+<%= link_to "Confirm", event_rsvps_path(@event),{method: :post	, class: 'small', data: {confirm: 'Are you sure?'}}%>
+
+<%end%>

@@ -13,37 +13,34 @@
         <th>
             <%= t '.date_header' %>
         </th>
+
+        <th>
+            <%=  t 'price' %>
+        </th>  
+
         <th>
             <%= t 'index_actions' %>
         </th>
+     
     </tr>
     </thead>
 
     <tbody>
-    <% @events.each do |event| %>
+<!--
+        <%= render partial: 'show_events',
+                   collection: @events ,
+                   as: :event %>
+-->
 
-    <tr>
-        <td>
-            <%= link_to event.name, event_path(event) %>
-        </td>
 
-        <td>
-            <%= l event.start_at, format: :short %>
-            -
-            <%= l event.end_at, format: :short %>
-        </td>
-        <td>
+        <%= render partial: 'show_events',
+                   collection: @events ,
+                   locals: {event: @event},
+                   spacer_template: 'spt_show_events',
+                   layout: 'lspt_show_events',
+                   as: :event %>
 
-            <% if policy(event).edit? %>
-                <%= link_to t('.edit'), edit_event_path(event) %><br>
-            <% end %>
-            <% if policy(event).destroy? %>
-                <%= link_to "Delete", event_path(event), {method: :delete, class: 'small', confirm: 'Are you sure?'} %>
-            <% end %>
-        </td>
-    </tr>
 
-    <% end %>
     </tbody>
 </table>
 <% end %>

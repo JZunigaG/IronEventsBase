@@ -1,34 +1,15 @@
-<%= form_for @event do |f| %>
-    <div class="row">
-        <div class="large-12 columns">
-            <%= f.label :name %>
-            <%= f.text_field :name %>
-        </div>
-    </div>
+<%= simple_form_for @event do |f| %>
 
-    <div class="row">
-        <div class="large-12 columns">
-            <%= f.label :description %>
-            <%= f.text_area  :description %>
-        </div>
-    </div>
+    <%= f.input :name %>
 
+    <%= f.input :description %>
 
-    <div class="row">
-        <div class="large-12 columns">
-            <%= f.label :start_at %>
-            <%= f.date_field :start_at %>
-        </div>
-    </div>
+    <%= f.input :start_at,as: :custom_date %>
 
+    <%= f.input :end_at,as: :custom_date %>
 
-    <div class="row">
-        <div class="large-12 columns">
-            <%= f.label :end_at %>
-            <%= f.date_field :end_at %>
-        </div>
-    </div>
+ 	<%= f.input :price_in_euros%>
+ 	
+    <%= f.submit 'Save',{ class: 'round button'} %>
 
-
-    <%= f.submit t('.save'), class: 'round button' %>
-<% end %>
+ <% end %>

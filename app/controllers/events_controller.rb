@@ -22,7 +22,7 @@ class EventsController < ApplicationController
 
 	def show
 
-		@event = Event.find(params[:id])
+		@event = Event.friendly.find(params[:id])
 
 	end
 
@@ -117,18 +117,19 @@ class EventsController < ApplicationController
 
 
 
+
 	private
 
 		def set_event
 
-			@event = Event.find(params[:id])
+			@event = Event.friendly.find(params[:id])
 
 		end
 
 
 		def create_params
 
-			params.require(:event).permit(:name, :description, :start_at, :end_at)
+			params.require(:event).permit(*policy(@event).permitted_attributes)
 
 		end
 
@@ -136,8 +137,9 @@ class EventsController < ApplicationController
 		def update_params
 
 			# el asterisco convierte el array a los valores separados por coma
+			# en el metodo permitted_attributes se pasa el metodo para la conversion
+			# del precio a centimos para BD
 			params.require(:event).permit(*policy(@event).permitted_attributes)
-			#params.require(:event).permit(:name, :description, :start_at, :end_at)
 
 		end
 
