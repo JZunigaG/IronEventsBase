@@ -24,6 +24,9 @@ module Ironevents
 		config.i18n.default_locale = :es
 
 		config.i18n.available_locales = [:es,:en]
+
+		config.action_controller.page_cache_directory = Rails.root.to_s + "/	cache/"
+
 	end
 
 end
